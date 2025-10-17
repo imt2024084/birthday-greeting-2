@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Birthday Greeting</title>
+  <title>Happy Birthday</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f8e7b2;
       margin: 0;
       padding: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: linear-gradient(to bottom right, #ffe6f0, #e0f7fa);
+      overflow: hidden;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      overflow: hidden;
       flex-direction: column;
     }
 
@@ -23,58 +23,60 @@
     }
 
     .input-box input {
-      font-size: 1.2em;
-      padding: 8px;
+      padding: 12px;
+      font-size: 1.2rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
     }
 
     .input-box button {
-      font-size: 1.2em;
-      padding: 8px 12px;
-      margin-left: 5px;
+      padding: 12px 20px;
+      font-size: 1.2rem;
+      margin-left: 10px;
+      background-color: #ff69b4;
+      color: white;
+      border: none;
+      border-radius: 8px;
       cursor: pointer;
     }
 
     .greeting {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #ff1493;
       text-align: center;
-      opacity: 0;
-      transform: scale(0);
-      transition: all 0.8s ease;
+      display: none;
     }
 
-    .greeting.show {
-      opacity: 1;
-      transform: scale(1);
-    }
-
-    .greeting h1 {
-      font-size: 3em;
-      color: #ff5c8d;
-    }
-
-    .points {
-      font-size: 1.5em;
-      color: #2d2d2d;
-      margin-top: 20px;
-    }
-
-    .confetti {
+    .balloon, .flower {
       position: absolute;
-      top: -10px;
-      width: 10px;
-      height: 10px;
-      background-color: #ff5c8d;
-      opacity: 0.9;
-      animation: confettiFall 5s infinite;
-      transform: rotate(45deg);
+      width: 40px;
+      height: 40px;
+      opacity: 0.8;
+      pointer-events: none;
+      animation: floatUp 6s infinite;
     }
 
-    @keyframes confettiFall {
+    .balloon {
+      background: radial-gradient(circle at 30% 30%, #ff69b4, #ff1493);
+      border-radius: 50%;
+    }
+
+    .flower {
+      background-image: url('https://cdn-icons-png.flaticon.com/512/765/765573.png');
+      background-size: cover;
+    }
+
+    @keyframes floatUp {
       0% {
-        transform: rotate(45deg) translateY(0);
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+      }
+      20% {
         opacity: 1;
       }
       100% {
-        transform: rotate(45deg) translateY(100vh);
+        transform: translateY(-100vh) rotate(360deg);
         opacity: 0;
       }
     }
@@ -83,46 +85,48 @@
 <body>
 
   <div class="input-box" id="inputBox">
-    <p>Enter your name:</p>
-    <input type="text" id="nameInput" placeholder="Name" />
-    <button id="startBtn">Start Greeting</button>
+    <h2>Enter a name to start the celebration!</h2>
+    <input type="text" id="nameInput" placeholder="Enter name" />
+    <button onclick="showGreeting()">Celebrate</button>
   </div>
 
-  <div class="greeting" id="greetingBox">
-    <h1 id="greetingText">Happy Birthday!</h1>
-    <div class="points">
-      <p>Wishing you lots of happiness today and always!</p>
-      <p>May all your dreams come true!</p>
-      <p>Enjoy your special day to the fullest!</p>
-    </div>
-  </div>
+  <div class="greeting" id="greetingText"></div>
 
   <script>
-    document.getElementById('startBtn').addEventListener('click', function () {
-      const name = document.getElementById('nameInput').value.trim();
-      if (name === '') {
-        alert('Please enter a name');
+    function showGreeting() {
+      const name = document.getElementById("nameInput").value.trim();
+      if (!name) {
+        alert("Please enter a name!");
         return;
       }
 
-      document.getElementById('inputBox').style.display = 'none';
-      document.getElementById('greetingText').textContent = 'Happy Birthday ' + name + '!';
+      document.getElementById("inputBox").style.display = "none";
+      const greeting = document.getElementById("greetingText");
+      greeting.innerText = "🎉 Happy Birthday " + name + "! 🎉";
+      greeting.style.display = "block";
 
-      const greet = document.getElementById('greetingBox');
-      setTimeout(() => {
-        greet.classList.add('show');
-      }, 100);
+      launchDecorations();
+    }
 
-      let totalConfetti = 100;
-      for (let i = 0; i < totalConfetti; i++) {
-        let conf = document.createElement('div');
-        conf.className = 'confetti';
-        conf.style.left = Math.random() * window.innerWidth + 'px';
-        conf.style.animationDuration = (Math.random() * 3 + 2) + 's';
-        conf.style.animationDelay = Math.random() * 5 + 's';
-        document.body.appendChild(conf);
+    function launchDecorations() {
+      for (let i = 0; i < 30; i++) {
+        const balloon = document.createElement("div");
+        balloon.classList.add("balloon");
+        balloon.style.left = Math.random() * 100 + "vw";
+        balloon.style.animationDuration = (Math.random() * 3 + 4) + "s";
+        document.body.appendChild(balloon);
       }
-    });
+
+      for (let i = 0; i < 20; i++) {
+        const flower = document.createElement("div");
+        flower.classList.add("flower");
+        flower.style.left = Math.random() * 100 + "vw";
+        flower.style.animationDuration = (Math.random() * 3 + 4) + "s";
+        flower.style.width = "40px";
+        flower.style.height = "40px";
+        document.body.appendChild(flower);
+      }
+    }
   </script>
 
 </body>
