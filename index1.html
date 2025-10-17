@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Happy Birthday</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: linear-gradient(to bottom right, #ffe6f0, #e0f7fa);
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+
+    .input-box {
+      text-align: center;
+    }
+
+    .input-box input {
+      padding: 12px;
+      font-size: 1.2rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .input-box button {
+      padding: 12px 20px;
+      font-size: 1.2rem;
+      margin-left: 10px;
+      background-color: #ff69b4;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .greeting {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #ff1493;
+      text-align: center;
+      display: none;
+    }
+
+    .balloon, .flower {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      opacity: 0.8;
+      pointer-events: none;
+      animation: floatUp 6s infinite;
+    }
+
+    .balloon {
+      background: radial-gradient(circle at 30% 30%, #ff69b4, #ff1493);
+      border-radius: 50%;
+    }
+
+    .flower {
+      background-image: url('https://cdn-icons-png.flaticon.com/512/765/765573.png');
+      background-size: cover;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+      }
+      20% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="input-box" id="inputBox">
+    <h2>Enter a name to start the celebration!</h2>
+    <input type="text" id="nameInput" placeholder="Enter name" />
+    <button onclick="showGreeting()">Celebrate</button>
+  </div>
+
+  <div class="greeting" id="greetingText"></div>
+
+  <script>
+    function showGreeting() {
+      const name = document.getElementById("nameInput").value.trim();
+      if (!name) {
+        alert("Please enter a name!");
+        return;
+      }
+
+      document.getElementById("inputBox").style.display = "none";
+      const greeting = document.getElementById("greetingText");
+      greeting.innerText = "🎉 Happy Birthday " + name + "! 🎉";
+      greeting.style.display = "block";
+
+      launchDecorations();
+    }
+
+    function launchDecorations() {
+      for (let i = 0; i < 30; i++) {
+        const balloon = document.createElement("div");
+        balloon.classList.add("balloon");
+        balloon.style.left = Math.random() * 100 + "vw";
+        balloon.style.animationDuration = (Math.random() * 3 + 4) + "s";
+        document.body.appendChild(balloon);
+      }
+
+      for (let i = 0; i < 20; i++) {
+        const flower = document.createElement("div");
+        flower.classList.add("flower");
+        flower.style.left = Math.random() * 100 + "vw";
+        flower.style.animationDuration = (Math.random() * 3 + 4) + "s";
+        flower.style.width = "40px";
+        flower.style.height = "40px";
+        document.body.appendChild(flower);
+      }
+    }
+  </script>
+
+</body>
+</html>
